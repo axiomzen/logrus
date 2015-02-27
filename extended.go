@@ -15,3 +15,11 @@ func (entry *Entry) WithError(err error) *Entry {
 func WithError(err error) *Entry {
 	return std.WithField("error", err)
 }
+
+func WithLocation() *Entry {
+	return std.WithField("loc", getLocation())
+}
+
+func (entry *Entry) WithLocation() *Entry {
+	return entry.WithField("loc", getLocation())
+}

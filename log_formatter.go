@@ -3,7 +3,9 @@ package logrus
 import (
 	"bytes"
 	"fmt"
+	"runtime"
 	"sort"
+	"strconv"
 	"strings"
 	"time"
 )
@@ -69,7 +71,7 @@ func (f *LogFormatter) appendKeyValue(b *bytes.Buffer, key, value interface{}) {
 }
 
 func fullTime(t time.Time) string {
-	return t.Format(time.Stamp)
+	return t.Format(time.RFC3339)
 }
 
 func printColoredWithTime(b *bytes.Buffer, entry *Entry, keys []string) {
@@ -90,4 +92,18 @@ func printColoredWithTime(b *bytes.Buffer, entry *Entry, keys []string) {
 		v := entry.Data[k]
 		fmt.Fprintf(b, " \x1b[%dm%s\x1b[0m=%v", levelColor, k, v)
 	}
+}
+
+func getLocation() string {
+	pc, file, line, _ := runtime.Caller(2)
+
+	var buffer bytes.Buffer
+
+	buffer.WriteString(file)
+	buffer.WriteString(": [")
+	buffer.WriteString(runtime.FuncForPC(pc).Name())
+	buffer.WriteString(" - line ")
+	buffer.WriteString(strconv.Itoa(line))
+	buffer.WriteString("]")
+	return buffer.String()
 }
