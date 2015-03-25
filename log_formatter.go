@@ -21,6 +21,7 @@ type LogFormatter struct {
 	DisableColors bool
 	// Set to true to disable timestamp logging (useful when the output
 	// is redirected to a logging system already adding a timestamp)
+	DisableTimestamp bool
 }
 
 func (f *LogFormatter) Format(entry *Entry) ([]byte, error) {
@@ -39,7 +40,9 @@ func (f *LogFormatter) Format(entry *Entry) ([]byte, error) {
 	if isColored {
 		printColoredWithTime(b, entry, keys)
 	} else {
-		f.appendKeyValue(b, "time", entry.Time.Format(time.RFC3339))
+		if !f.DisableTimestamp {
+			f.appendKeyValue(b, "time", entry.Time.Format(time.RFC3339))
+		}
 		f.appendKeyValue(b, "level", entry.Level.String())
 		f.appendKeyValue(b, "msg", entry.Message)
 		for _, key := range keys {
