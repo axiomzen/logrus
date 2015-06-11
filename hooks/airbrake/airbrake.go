@@ -1,7 +1,7 @@
 package logrus_airbrake
 
 import (
-	"github.com/Sirupsen/logrus"
+	"github.com/axiomzen/logrus"
 	"github.com/tobi/airbrake-go"
 )
 

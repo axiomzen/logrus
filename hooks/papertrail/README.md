@@ -13,8 +13,8 @@ For `YOUR_APP_NAME`, substitute a short string that will readily identify your a
 ```go
 import (
   "log/syslog"
-  "github.com/Sirupsen/logrus"
-  "github.com/Sirupsen/logrus/hooks/papertrail"
+  "github.com/axiomzen/logrus"
+  "github.com/axiomzen/logrus/hooks/papertrail"
 )
 
 func main() {
